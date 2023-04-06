@@ -1,14 +1,16 @@
 package server;
 
 import javafx.util.Pair;
+import server.models.Course;
+import server.models.RegistrationForm;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 
 public class Server {
 
@@ -92,6 +94,28 @@ public class Server {
      */
     public void handleLoadCourses(String arg) {
         // TODO: implémenter cette méthode
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("cours.txt"));
+            List<Course> courseList = new ArrayList<>();
+
+            String s;
+            while ((s = reader.readLine()) != null) {
+                String[] courses = s.split(" ");
+                Course course = new Course(courses[1], courses[0], courses[2]);
+                courseList.add(course);
+            }
+            List<Course> courseFiltered = new ArrayList<>();
+            for (int i = 0; i < courseList.size(); i++) {
+                if (courseList.get(i).getSession().equals(arg)) {
+                    courseFiltered.add(courseList.get(i));
+                }
+            }
+            objectOutputStream.writeObject(courseFiltered);
+
+        }
+        catch (IOException e) {
+            System.out.println("Il y a une erreur!");
+        }
     }
 
     /**
@@ -101,6 +125,25 @@ public class Server {
      */
     public void handleRegistration() {
         // TODO: implémenter cette méthode
+        try {
+            RegistrationForm registrationForm = (RegistrationForm) objectInputStream.readObject();
+            BufferedWriter writer = new BufferedWriter(new FileWriter("inscription,txt"));
+
+            String line = registrationForm.getCourse().getSession() + "\t" + registrationForm.getCourse().getCode() +
+                    "\t" + registrationForm.getMatricule() + "\t" + registrationForm.getPrenom() + "\t" +
+                    registrationForm.getNom() + "\t" + registrationForm.getEmail();
+
+            writer.append(line);
+
+            writer.close();
+        }
+        catch (IOException e) {
+            System.out.println("Il y a une erreur");
+        }
+        catch (ClassNotFoundException e) {
+            System.out.println("Il y a une erreur");
+        }
+
     }
 }
 
