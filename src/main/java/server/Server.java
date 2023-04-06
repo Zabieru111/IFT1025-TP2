@@ -95,7 +95,7 @@ public class Server {
     public void handleLoadCourses(String arg) {
         // TODO: implémenter cette méthode
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("cours.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("data/cours.txt"));
             List<Course> courseList = new ArrayList<>();
 
             String s;
@@ -127,7 +127,7 @@ public class Server {
         // TODO: implémenter cette méthode
         try {
             RegistrationForm registrationForm = (RegistrationForm) objectInputStream.readObject();
-            BufferedWriter writer = new BufferedWriter(new FileWriter("inscription,txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("data/inscription,txt"));
 
             String line = registrationForm.getCourse().getSession() + "\t" + registrationForm.getCourse().getCode() +
                     "\t" + registrationForm.getMatricule() + "\t" + registrationForm.getPrenom() + "\t" +
