@@ -100,7 +100,7 @@ public class Server {
 
             String s;
             while ((s = reader.readLine()) != null) {
-                String[] courses = s.split(" ");
+                String[] courses = s.split("\t");
                 Course course = new Course(courses[1], courses[0], courses[2]);
                 courseList.add(course);
             }
@@ -126,10 +126,16 @@ public class Server {
     public void handleRegistration() {
         // TODO: implémenter cette méthode
         try {
+            String line = "";
             RegistrationForm registrationForm = (RegistrationForm) objectInputStream.readObject();
-            BufferedWriter writer = new BufferedWriter(new FileWriter("data/inscription,txt"));
-
-            String line = registrationForm.getCourse().getSession() + "\t" + registrationForm.getCourse().getCode() +
+            BufferedReader reader = new BufferedReader(new FileReader("data/inscription.txt"));
+            String s;
+            while ((s = reader.readLine())!=null){
+                line +=s+"\n";
+            }
+            BufferedWriter writer = new BufferedWriter(new FileWriter("data/inscription.txt"));
+            writer.append(line);
+            line = registrationForm.getCourse().getSession() + "\t" + registrationForm.getCourse().getCode() +
                     "\t" + registrationForm.getMatricule() + "\t" + registrationForm.getPrenom() + "\t" +
                     registrationForm.getNom() + "\t" + registrationForm.getEmail();
 
