@@ -70,6 +70,8 @@ public class ClientFX extends Application {
         TextField emailField = new TextField();
         TextField matriculeField = new TextField();
 
+
+
         prenomBox.getChildren().addAll(prenomText, prenomField);
         prenomBox.setAlignment(Pos.CENTER);
         nomBox.getChildren().addAll(nomText, nomField);
@@ -130,7 +132,7 @@ public class ClientFX extends Application {
             }
         });
         submit.setOnMouseClicked(event -> {
-            String message = controller.inscrire(prenomField,nomField,emailField,matriculeField,table);
+            String message = controller.inscrire(prenomField,nomField,emailField,matriculeField,table,this);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(message);
             alert.show();
@@ -153,11 +155,12 @@ public class ClientFX extends Application {
         primaryStage.show();
 
     }
-    public void changeField(TextField textField){
-        textField.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
+    public void changeField(Control control){
+        control.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     }
-    public void resetField(TextField textField){
-        textField.setStyle(null);
+    public void resetField(Control control){
+        control.setStyle(null);
     }
+
 
 }
