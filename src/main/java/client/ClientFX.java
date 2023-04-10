@@ -25,7 +25,7 @@ public class ClientFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
+        ClientController controller = new ClientController();
 
         HBox root = new HBox();
         Scene scene = new Scene(root, 600, 450);
@@ -103,43 +103,11 @@ public class ClientFX extends Application {
 
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        List<Course> courseFiltered = new ArrayList<>();
-
-        courseFiltered.add(new Course("Programmation2", "IFT1025", "Hiver"));
-        courseFiltered.add(new Course("Programmation1", "IFT1015", "Automne"));
-        courseFiltered.add(new Course("Genie_Logiciel", "IFT2255", "Hiver"));
-        courseFiltered.add(new Course("Architecture_des_ordinateurs", "IFT1227", "Automne"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnddddddddddddddddddddddddddddddddddddddddddes", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-        courseFiltered.add(new Course("Base_de_donnees", "IFT2256", "Ete"));
-
-        for (Course cours : courseFiltered) {
-            table.getItems().add(cours);
-        }
-
 
         table.setPrefHeight(30*11);
         table.setPrefWidth(120);
 
         Separator separator2 = new Separator();
-
-//        ScrollPane scrollPane = new ScrollPane();
-//        scrollPane.setContent(table);
-//        scrollPane.setFitToWidth(true);
-//        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
         courseInterface.getChildren().addAll(table, separator2);
         courseInterface.setMargin(table, new Insets(0, 10, 10, 10));
@@ -154,6 +122,19 @@ public class ClientFX extends Application {
         sessionsMenu.setValue("Hiver");
 
         Button chargerButton = new Button("Charger");
+        chargerButton.setOnMouseClicked(event -> {
+           List<Course> temp =  controller.charger((String) sessionsMenu.getValue());
+           table.getItems().clear();
+            for (Course course : temp){
+                table.getItems().add(course);
+            }
+        });
+        submit.setOnMouseClicked(event -> {
+            String message = controller.inscrire(prenomField,nomField,emailField,matriculeField,table);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText(message);
+            alert.show();
+        });
 
 
         buttonGroup.getChildren().addAll(sessionsMenu, chargerButton);
@@ -171,6 +152,12 @@ public class ClientFX extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+    }
+    public void changeField(TextField textField){
+        textField.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
+    }
+    public void resetField(TextField textField){
+        textField.setStyle(null);
     }
 
 }
