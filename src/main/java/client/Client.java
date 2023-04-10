@@ -81,19 +81,19 @@ public class Client {
     }
     public void validate(String prenom,String nom, String email,String matricule,String courseName){
         if (prenom.matches("[A-z]+")==false){
-            erreurs.add(new Erreur("Le prenom n'est pas valide","prenom"));
+            erreurs.add(new Erreur("Le prenom n'est pas valide","prenomField"));
         }
         if (nom.matches("[A-z]+")==false){
-            erreurs.add(new Erreur("Le nom n'est pas valide","nom"));
+            erreurs.add(new Erreur("Le nom n'est pas valide","nomField"));
         }
         if (email.matches("[A-z]+@[A-z]+\\.[A-z]+")==false){
-            erreurs.add(new Erreur("Le email n'est pas valide","email"));
+            erreurs.add(new Erreur("Le email n'est pas valide","emailField"));
         }
         if (matricule.matches("[0-9]{6}")==false){
-            erreurs.add(new Erreur("Le matricule n'est pas valide","matricule"));
+            erreurs.add(new Erreur("Le matricule n'est pas valide","matriculeField"));
         }
         if (courseName ==null){
-            erreurs.add(new Erreur("Aucun cours n'a été selectionné","course"));
+            erreurs.add(new Erreur("Aucun cours n'a été selectionné","courseField"));
         }
     }
 
