@@ -18,11 +18,25 @@ import server.models.Course;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe qui représente la vue du client.
+ */
 public class ClientFX extends Application {
+    /**
+     * Commence l'interface graphique en JavaFX du client.
+     * Lance l'application graphique qui affichera les cours et le formulaire d'inscription.
+     *
+     * @param args argument de la ligne de commande
+     */
     public static void main(String[] args) {
         ClientFX.launch(args);
     }
 
+    /**
+     * Montre la fenêtre de l'application et ses éléments graphiques.
+     *
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         ClientController controller = new ClientController();
@@ -155,9 +169,24 @@ public class ClientFX extends Application {
         primaryStage.show();
 
     }
+
+    /**
+     * Change la couleur de la bordure en rouge pour le ou les éléments erronés.
+     * Pour les textfields mals remplis ou lorsque l'utilisateur n'a pas sélectionné un cours dans la table, change la
+     * couleur des bordures concernés.
+     *
+     * @param control table ou les textfields que le bordure doit changé.
+     */
     public void changeField(Control control){
         control.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
     }
+
+    /**
+     * Réinitialise la couleur de la bordure des éléments qui a été mise en rouge.
+     * Une fois que l'utilisateur a réparé son ou ses erreurs, reinitialise les couleurs.
+     *
+     * @param control table ou les textfields que le bordure doit changé.
+     */
     public void resetField(Control control){
         control.setStyle(null);
     }
