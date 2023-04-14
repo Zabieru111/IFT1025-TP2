@@ -9,12 +9,28 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Classe représentant le client dans l'interaction server-client.
+ */
 public class Client {
     List<Erreur> erreurs = new ArrayList<>();
     private Socket clientSocket;
     private ObjectOutputStream oos;
     private ObjectInputStream ois;
     public List<Course> courseList = new ArrayList<>();
+
+
+    /**
+     * Retourne une liste de cours à la classe appelante.
+     * Envoie la ligne entré en paramètre au serveur et récupère la liste de cours
+     * que le serveur envoit. Cette classe retourne à la classe appelante toujours même si la liste de cours est nulle.
+     *
+     * @param line string qui représente la commande est envoyé au serveur.
+     * @throws IOException erreur qui peut survenir s'il y a un problème entre la connexion avec le serveur
+     * @throws ClassNotFoundException erreur qui peut survenir si le client n'arrive pas lire se que le serveur envoit
+     * @return liste de cours de la session choisie.
+     */
     public List<Course> Charger(String line){
         try{
             clientSocket = new Socket("127.0.0.1", 1337);
@@ -33,6 +49,14 @@ public class Client {
         }
         return null;
     }
+
+    /**
+     * sauvegarde les cours que le serveur envoit pour que l'utilisateur puisse les choisir.
+     * Lorsqu'un cours est envoyé par le serveur, cette classe sauvegarde celui-ci dans une liste
+     * permettant à l'utilisateur de le selectionner.
+     *
+     * @param filteredlist liste des cours que l'utilisateur à vu au moins une fois.
+     */
     public void addCourse(List <Course> filteredlist){
         for (int i=0;i<filteredlist.size();i++){
             if (courseList.size()!=0) {
@@ -45,6 +69,17 @@ public class Client {
             }
         }
     }
+
+    /**
+     * Envoit au serveur les données d'inscription de l'utilisateur.
+     * Crée une connexion avec le serveur et envoit un formulaire à celui-ci.
+     * Si la connexion est établie, retourne un message de confirmation à l'utilisateur. Sinon, retourne un message
+     * d'erreur à celui-ci.
+     *
+     * @param line information de l'inscription de l'utilisateur.
+     * @throws IOException erreur qui peut survenir s'il y a un problème entre la connexion avec le serveur.
+     * @return un message de confirmation ou un message d'erreur que la classe appelante affichera.
+     */
     public String inscrire(String line){
         erreurs.clear();
         String[] information = line.split(" ");
@@ -71,6 +106,16 @@ public class Client {
         }
         return "Erreur";
     }
+
+    /**
+     * Retourne un cours si celui-ci est dans la liste de l'utilisateur.
+     * verifie dans la liste de cours du client si le code du cours entré en paramètre est valide
+     * si oui retourne le cours,
+     * si non retourne null.
+     *
+     * @param courseName code du cours à vérifier
+     * @return le cours qui à été sauvegarder dans la liste de cours du client
+     */
     public Course verifierCours(String courseName){
         for (int i =0;i<courseList.size();i++){
             if (courseList.get(i).getCode().equals(courseName)){
@@ -79,6 +124,18 @@ public class Client {
         }
         return null;
     }
+
+    /**
+     * Vérifie les informations d'inscriptions de l'utilisateur et ajoute une erreur si celle-ci est non valide.
+     * Vérifie la validité des différentes informations que l'utilisateur a entré et ajoute une erreur à la liste
+     * d'erreur si l'information est non-valide.
+     *
+     * @param prenom prenom entré par l'utilisateur
+     * @param nom nom entré par l'utilisateur
+     * @param email email entré par l'utilisateur
+     * @param matricule matricule entré par l'utilisateur
+     * @param courseName code du cours entré par l'utilisateur
+     */
     public void validate(String prenom,String nom, String email,String matricule,String courseName){
         if (prenom.matches("[A-z]+")==false){
             erreurs.add(new Erreur("Le prenom n'est pas valide","prenomField"));
@@ -97,6 +154,11 @@ public class Client {
         }
     }
 
+    /**
+     * Retourne la liste d'erreur du client
+     *
+     * @return retourne la liste d'erreur rencontré par le client
+     */
     public List<Erreur> getErreurs() {
         return erreurs;
     }
