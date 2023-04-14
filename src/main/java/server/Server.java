@@ -22,22 +22,43 @@ public class Server {
     private ObjectOutputStream objectOutputStream;
     private final ArrayList<EventHandler> handlers;
 
+    /**
+     * Constructeur pour la classe Server.
+     *
+     * @param port le port sur lequel le serveur écoute.
+     * @throws IOException erreur qui peut survenir s'il y a un problème entre la connexion avec le serveur.
+     */
     public Server(int port) throws IOException {
         this.server = new ServerSocket(port, 1);
         this.handlers = new ArrayList<EventHandler>();
         this.addEventHandler(this::handleEvents);
     }
 
+    /**
+     * Ajoute les EventHandlers.
+     *
+     * @param h eventhandler qui est ajouté.
+     */
     public void addEventHandler(EventHandler h) {
         this.handlers.add(h);
     }
 
+    /**
+     * Passe la commande et ses arguments à tous les eventHandlers.
+     *
+     * @param cmd partie commande de line.
+     * @param arg arguments de line.
+     */
     private void alertHandlers(String cmd, String arg) {
         for (EventHandler h : this.handlers) {
             h.handle(cmd, arg);
         }
     }
 
+    /**
+     * Notifie la connection et la déconnection du client, et appelle les méthodes listen() et disconnect() pour
+     * réagir à ce que le client envoie, notamment filtrer les cours et inscrire les données de l'utilisateur.
+     */
     public void run() {
         while (true) {
             try {
@@ -54,6 +75,12 @@ public class Server {
         }
     }
 
+    /**
+     * Appelle les méthodes qui vont décoder line.
+     *
+     * @throws IOException erreur qui peut survenir s'il y a un problème entre la connexion avec le serveur.
+     * @throws ClassNotFoundException erreur qui peut survenir si le client n'arrive pas lire se que le serveur envoit.
+     */
     public void listen() throws IOException, ClassNotFoundException {
         String line;
         if ((line = this.objectInputStream.readObject().toString()) != null) {
@@ -64,6 +91,12 @@ public class Server {
         }
     }
 
+    /**
+     * Découpe line pour avoir la partie commande et les arguments.
+     *
+     * @param line
+     * @return
+     */
     public Pair<String, String> processCommandLine(String line) {
         String[] parts = line.split(" ");
         String cmd = parts[0];
@@ -71,12 +104,23 @@ public class Server {
         return new Pair<>(cmd, args);
     }
 
+    /**
+     * Déconnecte le client du serveur.
+     *
+     * @throws IOException erreur qui peut survenir s'il y a un problème entre la connexion avec le serveur.
+     */
     public void disconnect() throws IOException {
         objectOutputStream.close();
         objectInputStream.close();
         client.close();
     }
 
+    /**
+     * Exécute handleRegistration() ou handleLoadCourses(arg) en fonction de la commande.
+     *
+     * @param cmd partie commande de line.
+     * @param arg arguments de line.
+     */
     public void handleEvents(String cmd, String arg) {
         if (cmd.equals(REGISTER_COMMAND)) {
             handleRegistration();

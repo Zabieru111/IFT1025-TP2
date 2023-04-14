@@ -14,7 +14,7 @@ public class Client_Simple {
      * Commence l'interface graphique dans la ligne de commande.
      * Appelle les méthodes qui vont afficher les différentes options que l'utilisateur va pouvoir choisir.
      *
-     * @param args argument de la ligne de commande
+     * @param args argument de la ligne de commande.
      */
     public static void main(String[] args) {
         Client client = new Client();

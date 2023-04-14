@@ -23,12 +23,12 @@ public class Client {
 
     /**
      * Retourne une liste de cours à la classe appelante.
-     * Envoie la ligne entré en paramètre au serveur et récupère la liste de cours
+     * Envoie la ligne entré en paramètre au serveur et récupère la liste de cours.
      * que le serveur envoit. Cette classe retourne à la classe appelante toujours même si la liste de cours est nulle.
      *
      * @param line string qui représente la commande est envoyé au serveur.
-     * @throws IOException erreur qui peut survenir s'il y a un problème entre la connexion avec le serveur
-     * @throws ClassNotFoundException erreur qui peut survenir si le client n'arrive pas lire se que le serveur envoit
+     * @throws IOException erreur qui peut survenir s'il y a un problème entre la connexion avec le serveur.
+     * @throws ClassNotFoundException erreur qui peut survenir si le client n'arrive pas lire se que le serveur envoit.
      * @return liste de cours de la session choisie.
      */
     public List<Course> Charger(String line){
