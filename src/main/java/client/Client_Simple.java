@@ -4,7 +4,18 @@ import server.models.Course;
 import java.util.List;
 import java.util.Scanner;
 
+
+/**
+ * Classe qui contrôle l'interaction en ligne de commande
+ */
 public class Client_Simple {
+
+    /**
+     * Commence l'interface graphique dans la ligne de commande.
+     * Appelle les méthodes qui vont afficher les différentes options que l'utilisateur va pouvoir choisir.
+     *
+     * @param args argument de la ligne de commande
+     */
     public static void main(String[] args) {
         Client client = new Client();
         Scanner scanner = new Scanner(System.in);
@@ -27,6 +38,15 @@ public class Client_Simple {
         List<Course> courseList = client.Charger(line);
         return  courseList;
     }
+
+    /**
+     * Affiche le menu d'option à l'utilisateur.
+     * Affiche différentes options comme voir les cours d'une session, s'inscrire à un cours ou quitter le programme
+     * à l'utilisateur. Cette méthodes à besoin que l'utilisateur entre un choix valide.
+     *
+     * @param scanner laisse à l'utilisateur faire des choix
+     * @param client objet représentant le client
+     */
     public static void optionMenu(Scanner scanner,Client client){
         int choice =0;
         String line ="";
@@ -55,6 +75,16 @@ public class Client_Simple {
 
         }while(line.equals("")==false);
     }
+
+
+    /**
+     * Menu qui laisse l'utilisateur choisir une session.
+     * Laisse à l'utilisateur choisir une session et retourne un string qui représentera la commande à
+     * envoyer au serveur. Cette méthode à besoin que l'utilisateur entre un choix valide.
+     *
+     * @param scanner laisse à l'utilisateur faire des choix
+     * @return un string qui représente la commande à envoyer au serveur
+     */
     public static String choixSession(Scanner scanner){
         int choice = 0;
         String line = "CHARGER";
@@ -77,6 +107,15 @@ public class Client_Simple {
         }
         return line;
     }
+
+    /**
+     * Laisse à l'utilisateur entré les informations d'inscriptions.
+     * L'utilisateur entre les informations pour son inscription à un cours. Ceux-ci sont renvoyé
+     * à la méthode appelante.
+     *
+     * @param scanner laisse à l'utilisateur faire des choix
+     * @return unstring contenant toutes les informations d'inscriptions
+     */
     public static String inscription(Scanner scanner){
         String line = "INSCRIRE ";
         System.out.print("Veuillez saisir votre prenom: ");
